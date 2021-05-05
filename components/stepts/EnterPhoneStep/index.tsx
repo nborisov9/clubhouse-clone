@@ -7,6 +7,8 @@ import { WhiteBlock } from '../../WhiteBlock';
 import { Button } from '../../Button';
 import { StepInfo } from '../../StepInfo';
 
+import { useMainContext } from '../../../hooks/useMainContext';
+
 import styles from './EnterPhoneStep.module.scss';
 
 type InputValueState = {
@@ -14,10 +16,12 @@ type InputValueState = {
   value: string;
 };
 
-export const EnterPhoneStep = () => {
+export const EnterPhoneStep: React.FC = () => {
   const [values, setValues] = React.useState<InputValueState>({} as InputValueState);
 
-  const nextButtonDisabled: boolean = !values.formattedValue || values.formattedValue.includes('_');
+  const nextDisabled: boolean = !values.formattedValue || values.formattedValue.includes('_');
+
+  const { onNextStep } = useMainContext();
 
   const changeInputHanlder = ({ formattedValue, value }) => setValues({ formattedValue, value });
 
@@ -40,7 +44,7 @@ export const EnterPhoneStep = () => {
             onValueChange={changeInputHanlder}
           />
         </div>
-        <Button disabled={nextButtonDisabled}>
+        <Button disabled={nextDisabled} onClick={onNextStep}>
           Next
           <img className="d-ib ml-10" src="/static/arrow.svg" />
         </Button>

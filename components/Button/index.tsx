@@ -11,7 +11,7 @@ const colors = {
 interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
-  color?: 'green' | 'gray';
+  color?: keyof typeof colors;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }

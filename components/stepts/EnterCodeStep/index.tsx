@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { useRouter } from 'next/router';
+
 import clsx from 'clsx';
 
-import { useRouter } from 'next/router';
 import { WhiteBlock } from '../../WhiteBlock';
 import { Button } from '../../Button';
 import { StepInfo } from '../../StepInfo';
@@ -10,23 +11,29 @@ import Axios from '../../../core/axios';
 
 import styles from './EnterPhoneStep.module.scss';
 
+const attributeId = 'id';
+const alertErrorMessage = 'Ошибка при активации!';
+
 export const EnterCodeStep = () => {
-  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [codes, setCodes] = React.useState(['', '', '', '']);
+
+  const router = useRouter();
   const nextDisabled = codes.some(v => !v);
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const index = Number(event.target.getAttribute('id'));
+    const index = Number(event.target.getAttribute(attributeId));
+
     const value = event.target.value;
+
     setCodes(prev => {
       const newArr = [...prev];
       newArr[index] = value;
       return newArr;
     });
-    if (event.target.nextSibling) {
-      (event.target.nextSibling as HTMLInputElement).focus();
-    }
+
+    const nextInput = event.target.nextSibling as HTMLInputElement;
+    nextInput?.focus(); // event.target.nextSibling - next input
   };
 
   const onSubmit = async () => {
@@ -35,7 +42,7 @@ export const EnterCodeStep = () => {
       await Axios.get('/todos');
       router.push('/rooms');
     } catch (error) {
-      alert('Ошибка при активации!');
+      alert(alertErrorMessage);
     }
 
     setIsLoading(false);

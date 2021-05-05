@@ -7,6 +7,8 @@ import { Button } from '../../Button';
 import { StepInfo } from '../../StepInfo';
 import { Avatar } from '../../Avatar';
 
+import { useMainContext } from '../../../hooks/useMainContext';
+
 import styles from './ChooseAvatarStep.module.scss';
 
 const startAvatarUrl =
@@ -16,6 +18,8 @@ export const ChooseAvatarStep: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = React.useState<string>(startAvatarUrl);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const { onNextStep } = useMainContext();
 
   const handleChangeInput = (event: Event) => {
     const files = (event.target as HTMLInputElement).files[0];
@@ -48,7 +52,7 @@ export const ChooseAvatarStep: React.FC = () => {
           </label>
         </div>
         <input ref={inputRef} id="image" type="file" hidden />
-        <Button>
+        <Button onClick={onNextStep}>
           Next
           <img className="d-ib ml-10" src="/static/arrow.svg" />
         </Button>
