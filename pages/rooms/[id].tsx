@@ -24,7 +24,7 @@ export default function RoomPage({ room }) {
 export const getServerSideProps = async ctx => {
   try {
     const { data } = await Axios.get('/rooms.json');
-    const roomId = ctx.query.id;
+    const roomId = ctx.query?.id;
     const room = data?.find(item => item.id === roomId);
 
     return {
@@ -33,6 +33,8 @@ export const getServerSideProps = async ctx => {
       },
     };
   } catch (error) {
+    console.log('ERROR', error);
+
     return {
       props: {},
     };
