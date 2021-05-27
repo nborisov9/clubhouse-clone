@@ -29,5 +29,3 @@ export const Button: React.FC<ButtonProps> = props => {
     </button>
   );
 };
-
-console.log('test commit');
